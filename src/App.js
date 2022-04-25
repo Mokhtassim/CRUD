@@ -1,37 +1,32 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {Link, Route} from 'react-router-dom';
+import Home from './Home';
+import Products from './Products';
+import ProductDetail from './ProductDetail';
 
 class App extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {
-      items : [],
-      dataLoad : false 
-    }
   }
-componentDidMount () {
-  fetch('https://api.publicapis.org/entries')
-  .then((item) => item.json())
-  .then(data => {
-    console.log(data.entries[0]);
-    this.setState({
-      items: data.entries,
-      dataLoad : true
-    })
-  })
-}
+
   render(){
-    const { dataLoad, items } = this.state;
     return (
       <div className="App">
-        <ul>
-         {
-        items.slice(0, 10).map((data) => (
-            <li>API: {data.API}</li>
-          ))
-         } 
-        </ul>
+        <nav>
+        <Link to='/'>Home</Link>
+        <Link to='/products'>Products</Link>
+          </nav>
+         <Route exact path='/'>
+           <Home/>
+         </Route>
+         <Route exact path='/products'>
+          <Products/>
+         </Route>
+         <Route path='/products/:productId'>
+          <ProductDetail/>
+         </Route>
       </div>
     );
   }
